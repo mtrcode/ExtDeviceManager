@@ -25,20 +25,20 @@ namespace ExtDeviceManager
             List<Device> temp = new List<Device>();
             try
             {
-                // Запрос к WMI для получения информации об устройствах PnP
+                // Р—Р°РїСЂРѕСЃ Рє WMI РґР»СЏ РїРѕР»СѓС‡РµРЅРёСЏ РёРЅС„РѕСЂРјР°С†РёРё РѕР± СѓСЃС‚СЂРѕР№СЃС‚РІР°С… PnP
                 ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM Win32_PnPEntity");
 
                 foreach (ManagementObject device in searcher.Get())
                 {
-                    temp.Add(new Device(device["Name"]?.ToString() ?? "Неизвестное устройство",
-                        device["DeviceID"]?.ToString() ?? "Нет ID",
-                        device["Status"]?.ToString() ?? "Неизвестно"));
+                    temp.Add(new Device(device["Name"]?.ToString() ?? "РќРµРёР·РІРµСЃС‚РЅРѕРµ СѓСЃС‚СЂРѕР№СЃС‚РІРѕ",
+                        device["DeviceID"]?.ToString() ?? "РќРµС‚ ID",
+                        device["Status"]?.ToString() ?? "РќРµРёР·РІРµСЃС‚РЅРѕ"));
                 }
                 status = "";
             }
             catch (Exception ex)
             {
-                status = "Ошибка при получении списка устройств: " + ex.Message;
+                status = "РћС€РёР±РєР° РїСЂРё РїРѕР»СѓС‡РµРЅРёРё СЃРїРёСЃРєР° СѓСЃС‚СЂРѕР№СЃС‚РІ: " + ex.Message;
             }
             return temp;
         }
@@ -57,7 +57,7 @@ namespace ExtDeviceManager
         {
             devices = GetListOfDevices();
             UpdateListBox();
-            label4.Text = "Устройства: " + devices.Count.ToString();
+            label4.Text = "РЈСЃС‚СЂРѕР№СЃС‚РІР°: " + devices.Count.ToString();
             /*var duplicates = devices
     .GroupBy(d => d)
     .Where(g => g.Count() > 1)
@@ -66,7 +66,7 @@ namespace ExtDeviceManager
             string message = "";
             if (duplicates.Count > 0)
             {
-                message = "Обнаружены дубликаты устройств:";
+                message = "РћР±РЅР°СЂСѓР¶РµРЅС‹ РґСѓР±Р»РёРєР°С‚С‹ СѓСЃС‚СЂРѕР№СЃС‚РІ:";
                 foreach (var device in duplicates)
                 {
                     message += "\n" + device.Name + " - " +
@@ -75,9 +75,9 @@ namespace ExtDeviceManager
             }
             else
             {
-                message = "Дубликаты не обнаружены";
+                message = "Р”СѓР±Р»РёРєР°С‚С‹ РЅРµ РѕР±РЅР°СЂСѓР¶РµРЅС‹";
             }
-            MessageBox.Show(message, "Результат", MessageBoxButtons.OK, MessageBoxIcon.Information);*/
+            MessageBox.Show(message, "Р РµР·СѓР»СЊС‚Р°С‚", MessageBoxButtons.OK, MessageBoxIcon.Information);*/
         }
 
         private void testAreaToolStripMenuItem_Click(object sender, EventArgs e)
@@ -93,18 +93,18 @@ namespace ExtDeviceManager
 
         private void button2_Click(object sender, EventArgs e)
         {
-            if (button2.Text == "Начать отслеживание")
+            if (button2.Text == "РќР°С‡Р°С‚СЊ РѕС‚СЃР»РµР¶РёРІР°РЅРёРµ")
             {
-                button2.Text = "Завершить отслеживание";
+                button2.Text = "Р—Р°РІРµСЂС€РёС‚СЊ РѕС‚СЃР»РµР¶РёРІР°РЅРёРµ";
                 timer1.Interval = Convert.ToInt32(numericUpDown1.Value);
                 richTextBox1.Clear();
-                richTextBox1.Text = GetTime() + " : Начато отслеживание";
+                richTextBox1.Text = GetTime() + " : РќР°С‡Р°С‚Рѕ РѕС‚СЃР»РµР¶РёРІР°РЅРёРµ";
                 timer1.Enabled = true;
             }
             else
             {
-                button2.Text = "Начать отслеживание";
-                richTextBox1.Text += "\n" + GetTime() + " : Завершено отслеживание";
+                button2.Text = "РќР°С‡Р°С‚СЊ РѕС‚СЃР»РµР¶РёРІР°РЅРёРµ";
+                richTextBox1.Text += "\n" + GetTime() + " : Р—Р°РІРµСЂС€РµРЅРѕ РѕС‚СЃР»РµР¶РёРІР°РЅРёРµ";
                 timer1.Enabled = false;
             }
         }
@@ -126,7 +126,7 @@ namespace ExtDeviceManager
 
                     if (newD.Count > 0)
                     {
-                        richTextBox1.Text += "\n" + GetTime() + " : Обнаружены новые устройства (" + newD.Count + "):";
+                        richTextBox1.Text += "\n" + GetTime() + " : РћР±РЅР°СЂСѓР¶РµРЅС‹ РЅРѕРІС‹Рµ СѓСЃС‚СЂРѕР№СЃС‚РІР° (" + newD.Count + "):";
                         int c = 1;
                         foreach (var device in newD)
                         {
@@ -142,7 +142,7 @@ namespace ExtDeviceManager
                             remD.Add(device);
                     if (remD.Count > 0)
                     {
-                        richTextBox1.Text += "\n" + GetTime() + " : Удалены устройства (" + remD.Count + "):";
+                        richTextBox1.Text += "\n" + GetTime() + " : РЈРґР°Р»РµРЅС‹ СѓСЃС‚СЂРѕР№СЃС‚РІР° (" + remD.Count + "):";
                         int c = 1;
                         foreach (var device in remD)
                         {
@@ -161,7 +161,7 @@ namespace ExtDeviceManager
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Clipboard.SetText(richTextBox1.Text);
-            MessageBox.Show("Лог скопирован в буфер обмена", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);  
+            MessageBox.Show("Р›РѕРі СЃРєРѕРїРёСЂРѕРІР°РЅ РІ Р±СѓС„РµСЂ РѕР±РјРµРЅР°", "РЈСЃРїРµС…", MessageBoxButtons.OK, MessageBoxIcon.Information);  
         }
     }
 }
